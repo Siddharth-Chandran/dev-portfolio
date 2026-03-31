@@ -50,21 +50,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Staggered Skills Cards
-  gsap.from(".skill-card", {
-    scrollTrigger: {
-      trigger: ".skills-grid",
-      start: "top 85%",
-    },
-    y: 50,
-    opacity: 0,
-    duration: 0.6,
-    stagger: 0.1,
-    ease: "back.out(1.7)"
+  // Staggered Skills Cards & Project Cards
+  gsap.utils.toArray(".skills-grid, .projects-grid").forEach(grid => {
+    gsap.from(grid.children, {
+      scrollTrigger: {
+        trigger: grid,
+        start: "top 85%",
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: "back.out(1.7)"
+    });
   });
 
   // Interactive Micro-animations on cards
-  const cards = document.querySelectorAll(".skill-card");
+  const cards = document.querySelectorAll(".skill-card, .project-card");
   
   cards.forEach(card => {
     card.addEventListener("mouseenter", () => {
