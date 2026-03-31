@@ -1,8 +1,12 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { inject } from '@vercel/analytics';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
+
+// Initialize Vercel Web Analytics
+inject();
 
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Initial Load Animations
