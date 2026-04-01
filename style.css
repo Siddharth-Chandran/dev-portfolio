@@ -3,15 +3,15 @@
 */
 :root {
   /* Color Palette */
-  --bg-color: #0f172a;      /* Deep Slate */
-  --text-main: #f8fafc;
+  --bg-color: #021a14;      /* Deep Emerald Green */
+  --text-main: #f0fdf4;
   --text-muted: #94a3b8;
-  --accent-color: #38bdf8;  /* Vibrant Sky Blue */
+  --accent-color: #d4af37;  /* Muted Metallic Gold */
   
   /* Glassmorphism Variables */
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
   --glass-blur: blur(12px);
 
   /* Fonts */
@@ -25,7 +25,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Avoid conflicts with GSAP */
   font-family: var(--font-family);
 }
 
@@ -35,6 +35,11 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  cursor: none; /* Hide default for custom cursor */
+}
+
+a, button, .magnetic {
+  cursor: none;
 }
 
 /* Abstract Animated Background Gradients */
@@ -58,10 +63,65 @@ body {
 .bg-abstract-2 {
   width: 500px;
   height: 500px;
-  background: #818cf8; /* Soft Indigo */
+  background: #0d9488; /* Teal / Pine Green */
   bottom: -20%;
   right: -10%;
   animation-delay: -5s;
+}
+
+/* Custom Cursor */
+#cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: var(--text-main);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+#cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+              height 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+              background-color 0.3s ease, 
+              box-shadow 0.3s ease;
+}
+
+#cursor-follower.active {
+  width: 70px;
+  height: 70px;
+  background-color: rgba(212, 175, 55, 0.05);
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.6);
+  border-color: rgba(212, 175, 55, 0.8);
+}
+
+/* Split Text Utility Wrappers */
+.split-wrapper {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+.split-char {
+  display: inline-block;
+}
+.split-space {
+  display: inline-block;
+  width: 0.3em;
 }
 
 @keyframes float {
@@ -188,7 +248,7 @@ body {
 
 .btn.primary {
   background: var(--accent-color);
-  color: #fff;
+  color: var(--bg-color); /* Deep emerald text on gold background */
   border: 1px solid var(--accent-color);
 }
 
@@ -216,6 +276,39 @@ body {
 }
 
 /* Portfolio Projects Section */
+.projects-section {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.projects-header {
+  margin-bottom: 2rem;
+}
+
+.projects-scroll-prompt {
+  color: var(--accent-color);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: -1.5rem;
+  opacity: 0.8;
+}
+
+.projects-horizontal-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.projects-column {
+  width: 100%;
+}
+
+.projects-col-header {
+  margin-bottom: 2rem;
+}
+
 .subsection-title {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
@@ -237,7 +330,7 @@ body {
 
 .project-card {
   padding: 2rem;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -246,7 +339,8 @@ body {
 
 .project-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(56, 189, 248, 0.5); /* Neon blue border on hover */
+  border-color: var(--accent-color);
+  box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
 }
 
 .project-content {
@@ -276,7 +370,7 @@ body {
 
 .badge {
   align-self: flex-start;
-  background: rgba(56, 189, 248, 0.1);
+  background: rgba(212, 175, 55, 0.1);
   color: var(--accent-color);
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
@@ -284,6 +378,7 @@ body {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .project-card h3 {
@@ -343,6 +438,33 @@ body {
 }
 
 /* Responsive */
+@media (min-width: 768px) {
+  .projects-horizontal-wrapper {
+    flex-direction: row;
+    width: max-content;
+    gap: 8vw;
+    padding-right: 15vw; /* Breathing room at end of horizontal scroll */
+  }
+  
+  .projects-column {
+    display: flex;
+    flex-direction: column;
+    /* Removed rigid width limitations to allow flexible horizontal expansion */
+  }
+
+  /* Morph the internal grid into a horizontal sequence of cards */
+  .projects-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .project-card {
+    width: 400px;
+    flex-shrink: 0; /* Prevent cards from compressing */
+  }
+}
+
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.5rem;
@@ -352,5 +474,12 @@ body {
   }
   .hero-content {
     padding: 2rem;
+  }
+  /* On mobile hide custom cursor */
+  body, a, button, .magnetic {
+    cursor: auto;
+  }
+  #cursor, #cursor-follower {
+    display: none;
   }
 }

@@ -1,6 +1,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { inject } from '@vercel/analytics';
+import { initCursor, initParallax, initSplitText, initScrollTriggers } from "./animations.js";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -9,7 +10,17 @@ gsap.registerPlugin(ScrollTrigger);
 inject();
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Initial Load Animations
+  // Initialize Custom Cursor & Parallax 
+  initCursor();
+  initParallax();
+
+  // Initialize Text Overflows and Trigger reveals
+  initSplitText();
+  
+  // Initialize Section ScrollTriggers
+  initScrollTriggers();
+
+  // 1. Initial Load Animations for Hero
   const tl = gsap.timeline();
 
   // Animate Navbar
@@ -26,20 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
     opacity: 0,
     duration: 0.8,
     ease: "power3.out"
-  }, "-=0.4"); // start slightly before navbar finishes
+  }, "-=0.4"); 
 
-  // Animate Hero Text Staggered
-  tl.from(".hero-title, .hero-subtitle, .hero-actions", {
-    y: 20,
-    opacity: 0,
-    duration: 0.6,
-    stagger: 0.15,
-    ease: "power3.out"
-  }, "-=0.4");
-
-  // 2. Scroll Triggered Animations
-
-  // General Fade up for full sections
+  // General Fade up for full sections (delay-appear elements)
   gsap.utils.toArray(".delay-appear").forEach((elem) => {
     gsap.from(elem, {
       scrollTrigger: {
@@ -54,28 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Staggered Skills Cards & Project Cards
-  gsap.utils.toArray(".skills-grid, .projects-grid").forEach(grid => {
-    gsap.from(grid.children, {
-      scrollTrigger: {
-        trigger: grid,
-        start: "top 85%",
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: "back.out(1.7)"
-    });
-  });
-
   // Interactive Micro-animations on cards
-  const cards = document.querySelectorAll(".skill-card, .project-card");
+  const cards = document.querySelectorAll(".skill-card, .project-card, .contact-card");
   
   cards.forEach(card => {
     card.addEventListener("mouseenter", () => {
       gsap.to(card, { 
-        scale: 1.05, 
+        scale: 1.02, 
         duration: 0.3, 
         ease: "power2.out" 
       });

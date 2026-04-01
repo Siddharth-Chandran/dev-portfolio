@@ -16,9 +16,13 @@
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
     <!-- Abstract Background -->
-    <div class="bg-abstract-1"></div>
-    <div class="bg-abstract-2"></div>
+    <div class="bg-abstract-1 parallax-bg" data-speed="0.05"></div>
+    <div class="bg-abstract-2 parallax-bg" data-speed="-0.03"></div>
 
     <div class="app-container">
       
@@ -39,8 +43,12 @@
         <!-- Hero Section -->
         <section id="hero" class="hero-section">
           <div class="hero-content glass box">
-            <h1 class="hero-title">Hello, <br/> I'm <span class="highlight">Siddharth</span></h1>
-            <p class="hero-subtitle">A Full-Stack Developer creating engaging digital experiences.</p>
+            <h1 class="hero-title split-text" data-split="word">
+              <div class="split-wrapper"><span class="split-char">Hello,</span></div><span class="split-space">&nbsp;</span>
+              <div class="split-wrapper"><span class="split-char">I'm</span></div><span class="split-space">&nbsp;</span>
+              <div class="split-wrapper"><span class="split-char highlight">Siddharth</span></div>
+            </h1>
+            <p class="hero-subtitle delay-appear">A Full-Stack Developer creating engaging digital experiences.</p>
             <div class="hero-actions">
               <a href="#projects" class="btn primary">View My Work</a>
               <a href="#contact" class="btn secondary">Get In Touch</a>
@@ -50,8 +58,8 @@
 
         <!-- About Section -->
         <section id="about" class="section">
-          <h2 class="section-title">About Me</h2>
-          <div class="about-container glass box delay-appear">
+          <h2 class="section-title split-text" data-split="char">About Me</h2>
+          <div class="about-container glass box">
             <p style="margin-bottom: 1.5rem;">
               I am a Software Engineer at Google with close to 9 years of experience in the tech industry. 
               Currently, I specialize as a backend engineer, though I spent my earlier years mastering full-stack development.
@@ -71,7 +79,7 @@
 
         <!-- Skills & Interests -->
         <section id="skills" class="section">
-          <h2 class="section-title">Skills & Interests</h2>
+          <h2 class="section-title split-text" data-split="char">Skills & Interests</h2>
           <div class="skills-grid">
             <div class="skill-card glass">
               <h3>Frontend</h3>
@@ -93,96 +101,107 @@
         </section>
 
         <!-- Projects Section -->
-        <section id="projects" class="section">
-          <h2 class="section-title">View My Work</h2>
-          
-          <div style="margin-bottom: 4rem;">
-            <h3 class="subsection-title delay-appear">The AI Era</h3>
-            <p class="section-subtitle delay-appear">Leveraging modern AI to build high-velocity products.</p>
-            <div class="projects-grid">
-              
-              <div class="project-card glass">
-                <div class="project-content">
-                  <span class="badge">Chrome Web Store</span>
-                  <h3>Smart Chrome Calculator</h3>
-                  <p>A premium, glassmorphic Chrome extension calculator with live expression evaluation and natural language parsing. Available now on the Chrome Web Store.</p>
-                </div>
-                <div class="project-links">
-                  <a href="https://chromewebstore.google.com/detail/smart-glass-calculator/ccilhokinjiabjciaahelojbkindneni" target="_blank" class="project-btn">View Extension ↗</a>
-                </div>
-              </div>
-
-              <div class="project-card glass">
-                <div class="project-content">
-                  <span class="badge">Vanilla JS / GSAP</span>
-                  <h3>Save the Date: Rohit</h3>
-                  <p>A beautifully animated, bespoke "Save the Date" website built using Vite, Vanilla JavaScript, and GSAP.</p>
-                </div>
-                <div class="project-links">
-                  <a href="https://samrohit.live/" target="_blank" class="project-btn">Live Site ↗</a>
-                  <a href="https://github.com/Siddharth-Chandran/save-the-date" target="_blank" class="project-btn">GitHub ↗</a>
-                </div>
-              </div>
-
-            </div>
+        <section id="projects" class="section projects-section">
+          <div class="projects-header">
+            <h2 class="section-title split-text" data-split="char">View My Work</h2>
+            <p class="projects-scroll-prompt">Scroll to explore &rarr;</p>
           </div>
-
-          <div>
-            <h3 class="subsection-title delay-appear">Hand-Crafted Foundations</h3>
-            <p class="section-subtitle delay-appear">Earlier work highlighting my fundamentals in full-stack and backend engineering.</p>
-            <div class="projects-grid">
-              
-              <div class="project-card glass">
-                <div class="project-content">
-                  <span class="badge">Java</span>
-                  <h3>Wego Parking Problem</h3>
-                  <p>An algorithm and mini-project to fetch and calculate the nearest car park garages for a given pair of coordinates.</p>
-                </div>
-                <div class="project-links">
-                  <a href="https://github.com/Siddharth-Chandran/wego-parking-problem" target="_blank" class="project-btn">GitHub ↗</a>
-                </div>
+          
+          <div class="projects-horizontal-wrapper">
+            <!-- Column 1: The AI Era -->
+            <div class="projects-column">
+              <div class="projects-col-header">
+                <h3 class="subsection-title split-text" data-split="word">The AI Era</h3>
+                <p class="section-subtitle delay-appear">Leveraging modern AI to build high-velocity products.</p>
               </div>
+              <div class="projects-grid">
+                
+                <div class="project-card glass magnetic" data-strength="15">
+                  <div class="project-content">
+                    <span class="badge">Chrome Web Store</span>
+                    <h3>Smart Chrome Calculator</h3>
+                    <p>A premium, glassmorphic Chrome extension calculator with live expression evaluation and natural language parsing. Available now on the Chrome Web Store.</p>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://chromewebstore.google.com/detail/smart-glass-calculator/ccilhokinjiabjciaahelojbkindneni" target="_blank" class="project-btn magnetic" data-strength="30">View Extension ↗</a>
+                  </div>
+                </div>
 
-              <div class="project-card glass">
-                <div class="project-content">
-                  <span class="badge">React / JS</span>
-                  <h3>CSV Uploader</h3>
-                  <p>A front-end interface built to parse, manage, and upload CSV data effectively while highlighting core React concepts.</p>
+                <div class="project-card glass magnetic" data-strength="15">
+                  <div class="project-content">
+                    <span class="badge">Vanilla JS / GSAP</span>
+                    <h3>Save the Date: Rohit</h3>
+                    <p>A beautifully animated, bespoke "Save the Date" website built using Vite, Vanilla JavaScript, and GSAP.</p>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://samrohit.live/" target="_blank" class="project-btn magnetic" data-strength="30">Live Site ↗</a>
+                    <a href="https://github.com/Siddharth-Chandran/save-the-date" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
+                  </div>
                 </div>
-                <div class="project-links">
-                  <a href="https://github.com/Siddharth-Chandran/csv-uploader" target="_blank" class="project-btn">GitHub ↗</a>
-                </div>
+
               </div>
+            </div>
 
-              <div class="project-card glass">
-                <div class="project-content">
-                  <span class="badge">JavaScript</span>
-                  <h3>CPI Dashboard</h3>
-                  <p>A Consumer Price Index Dashboard created for tracking and visualizing shifts in economic metrics.</p>
-                </div>
-                <div class="project-links">
-                  <a href="https://github.com/Siddharth-Chandran/cpi-dashboard" target="_blank" class="project-btn">GitHub ↗</a>
-                </div>
+            <!-- Column 2: Hand-Crafted Foundations -->
+            <div class="projects-column">
+              <div class="projects-col-header">
+                <h3 class="subsection-title split-text" data-split="word">Hand-Crafted Foundations</h3>
+                <p class="section-subtitle delay-appear">Earlier work highlighting my fundamentals in full-stack and backend engineering.</p>
               </div>
+              <div class="projects-grid">
+                
+                <div class="project-card glass magnetic" data-strength="15">
+                  <div class="project-content">
+                    <span class="badge">Java</span>
+                    <h3>Wego Parking Problem</h3>
+                    <p>An algorithm and mini-project to fetch and calculate the nearest car park garages for a given pair of coordinates.</p>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://github.com/Siddharth-Chandran/wego-parking-problem" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
+                  </div>
+                </div>
 
-              <div class="project-card glass">
-                <div class="project-content">
-                  <span class="badge">Java</span>
-                  <h3>OCR System</h3>
-                  <p>An Image-to-Text Optical Character Recognition engine integrated with a robust alerting mechanism.</p>
+                <div class="project-card glass magnetic" data-strength="15">
+                  <div class="project-content">
+                    <span class="badge">React / JS</span>
+                    <h3>CSV Uploader</h3>
+                    <p>A front-end interface built to parse, manage, and upload CSV data effectively while highlighting core React concepts.</p>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://github.com/Siddharth-Chandran/csv-uploader" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
+                  </div>
                 </div>
-                <div class="project-links">
-                  <a href="https://github.com/Siddharth-Chandran/OCR" target="_blank" class="project-btn">GitHub ↗</a>
+
+                <div class="project-card glass magnetic" data-strength="15">
+                  <div class="project-content">
+                    <span class="badge">JavaScript</span>
+                    <h3>CPI Dashboard</h3>
+                    <p>A Consumer Price Index Dashboard created for tracking and visualizing shifts in economic metrics.</p>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://github.com/Siddharth-Chandran/cpi-dashboard" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
+                  </div>
                 </div>
+
+                <div class="project-card glass magnetic" data-strength="15">
+                  <div class="project-content">
+                    <span class="badge">Java</span>
+                    <h3>OCR System</h3>
+                    <p>An Image-to-Text Optical Character Recognition engine integrated with a robust alerting mechanism.</p>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://github.com/Siddharth-Chandran/OCR" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
+                  </div>
+                </div>
+
               </div>
-
             </div>
           </div>
         </section>
 
         <!-- Contact Section -->
         <section id="contact" class="section">
-          <h2 class="section-title">Let's Connect</h2>
+          <h2 class="section-title split-text" data-split="char">Let's Connect</h2>
           <div class="contact-card glass box delay-appear">
             <p>I'm always open to discussing new ideas, tech, or gaming.</p>
             <div class="social-links">
