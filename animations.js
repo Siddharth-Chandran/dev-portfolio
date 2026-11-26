@@ -4,20 +4,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Authored Motion Layer
- * - Content always remains visible (opacity: 1) below the fold so screenshots,
- *   anchor jumps, and fast scrolling never encounter invisible regions.
- * - Uses compositor-only properties (transform, opacity) and clears inline styles.
+ * Authored GSAP + ScrollTrigger Motion Layer
+ * - Content below the fold stays visible (opacity: 1) at rest so fast scrolling,
+ *   deep links, and reduced-motion screenshots never encounter hidden sections.
+ * - Uses GPU-composited transforms and clears inline properties after settle.
  */
 export function initPortfolioMotion() {
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    // 1. Focal Hero Entrance (single rehearsed sequence on load)
     const heroLead = document.querySelector('[data-hero-lead]');
     const heroSupport = document.querySelectorAll('[data-hero-support]');
-    const heroDecoration = document.querySelector('[data-hero-decoration]');
-    const heroPanel = document.querySelector('[data-hero-panel]');
+    const heroDossier = document.querySelector('[data-hero-dossier]');
 
     const heroTl = gsap.timeline({
       defaults: { ease: 'power3.out', clearProps: 'transform,opacity' },
@@ -25,21 +23,10 @@ export function initPortfolioMotion() {
 
     if (heroLead) {
       heroTl.from(heroLead, {
-        y: 16,
+        y: 18,
         opacity: 0,
-        duration: 0.5,
+        duration: 0.48,
       });
-    }
-
-    if (heroDecoration) {
-      heroTl.from(
-        heroDecoration,
-        {
-          opacity: 0,
-          duration: 0.35,
-        },
-        0.04
-      );
     }
 
     if (heroSupport.length) {
@@ -48,47 +35,45 @@ export function initPortfolioMotion() {
         {
           y: 12,
           opacity: 0,
-          duration: 0.45,
-          stagger: 0.08,
+          duration: 0.42,
+          stagger: 0.07,
         },
         0.08
       );
     }
 
-    if (heroPanel) {
+    if (heroDossier) {
       heroTl.from(
-        heroPanel,
+        heroDossier,
         {
-          y: 14,
+          y: 16,
           scale: 0.98,
           opacity: 0,
-          duration: 0.5,
+          duration: 0.48,
         },
-        0.14
+        0.12
       );
     }
 
-    // 2. Subtle spatial settle on scroll without ever hiding content (opacity stays 1)
+    // Subtle below-fold positional settle without hiding opacity
     const revealTargets = gsap.utils.toArray('[data-reveal]');
-    const initialFold = window.innerHeight * 0.95;
-
-    const belowFold = revealTargets.filter((el) => {
-      const rect = el.getBoundingClientRect();
-      return rect.top > initialFold;
-    });
+    const initialFold = window.innerHeight * 0.92;
+    const belowFold = revealTargets.filter(
+      (el) => el.getBoundingClientRect().top > initialFold
+    );
 
     if (belowFold.length) {
       ScrollTrigger.batch(belowFold, {
-        start: 'top 94%',
+        start: 'top 93%',
         once: true,
         onEnter: (batch) => {
           gsap.fromTo(
             batch,
-            { y: 12 },
+            { y: 14 },
             {
               y: 0,
-              duration: 0.42,
-              stagger: { each: 0.05, from: 'start' },
+              duration: 0.44,
+              stagger: { each: 0.055, from: 'start' },
               ease: 'power3.out',
               overwrite: 'auto',
               clearProps: 'transform',
@@ -97,39 +82,14 @@ export function initPortfolioMotion() {
         },
       });
     }
-
-    // 3. Subtle authored highlight on the Save the Date motion curve (remains visible at rest)
-    const motionPath = document.querySelector('.schematic-motion-curve');
-    if (motionPath) {
-      gsap.fromTo(
-        motionPath,
-        { opacity: 0.45 },
-        {
-          opacity: 1,
-          duration: 0.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: motionPath,
-            start: 'top 92%',
-            once: true,
-          },
-          clearProps: 'opacity',
-        }
-      );
-    }
   });
 
-  // Reduced motion: gentle opacity fade for hero only, zero spatial movement
+  // Under reduced motion, ensure everything rests immediately visible with zero spatial travel
   mm.add('(prefers-reduced-motion: reduce)', () => {
     const heroItems = document.querySelectorAll(
-      '[data-hero-lead], [data-hero-support], [data-hero-decoration], [data-hero-panel]'
+      '[data-hero-lead], [data-hero-support], [data-hero-dossier]'
     );
-    gsap.from(heroItems, {
-      opacity: 0,
-      duration: 0.2,
-      ease: 'power1.out',
-      clearProps: 'opacity',
-    });
+    gsap.set(heroItems, { opacity: 1, clearProps: 'transform' });
   });
 }
 
@@ -139,7 +99,7 @@ export function animateFilteredGroup(groupEl) {
 
   gsap.fromTo(
     groupEl,
-    { y: 8, opacity: 0.65 },
+    { y: 10, opacity: 0.72 },
     {
       y: 0,
       opacity: 1,

@@ -1,21 +1,61 @@
 import { inject } from '@vercel/analytics';
+import { initHeroShader } from './shader.js';
+import { initSidecarSimulator } from './simulator.js';
 import {
   initPortfolioMotion,
   animateFilteredGroup,
   refreshScrollTriggers,
 } from './animations.js';
 
-// Initialize Vercel Web Analytics
-inject();
+// Initialize Vercel Web Analytics in deployed environments (avoid 404 on local preview)
+if (
+  typeof window !== 'undefined' &&
+  window.location.hostname !== '127.0.0.1' &&
+  window.location.hostname !== 'localhost'
+) {
+  inject();
+}
 
 const THEME_STORAGE_KEY = 'sidchan-theme';
 
 /**
+ * Scroll Progress Hairline Fallback
+ * Uses native CSS animation-timeline: scroll() where supported and falls back
+ * to a passive scroll listener when unsupported.
+ */
+function initScrollProgressFallback() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  if (CSS.supports('animation-timeline', 'scroll()')) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+    bar.style.transform = `scaleX(${ratio})`;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true }
+  );
+  update();
+}
+
+/**
  * Theme Controller
  * Syncs <html data-theme>, <meta name="color-scheme">, <meta name="theme-color">,
- * localStorage persistence, and cross-tab storage events.
+ * localStorage persistence, cross-tab storage events, and live WebGL shader palette.
  */
-function initThemeToggle() {
+function initThemeToggle(onThemeChange) {
   const toggleBtn = document.getElementById('theme-toggle');
   const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
   const themeColorMeta = document.querySelector('meta[name="theme-color"]');
@@ -28,12 +68,13 @@ function initThemeToggle() {
       colorSchemeMeta.setAttribute('content', resolved);
     }
     if (themeColorMeta) {
-      themeColorMeta.setAttribute('content', resolved === 'light' ? '#f6f5f0' : '#0a0d0c');
+      themeColorMeta.setAttribute('content', resolved === 'dark' ? '#060913' : '#f3f6fa');
     }
     if (toggleBtn) {
-      const nextLabel =
-        resolved === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
-      toggleBtn.setAttribute('aria-label', nextLabel);
+      toggleBtn.setAttribute(
+        'aria-label',
+        resolved === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+      );
     }
 
     if (persist) {
@@ -43,16 +84,16 @@ function initThemeToggle() {
         /* Ignore storage errors in restricted environments */
       }
     }
+
+    onThemeChange?.(resolved);
   };
 
-  // Sync initial aria-label with the pre-paint theme state
-  const current = document.documentElement.getAttribute('data-theme') || 'light';
-  applyTheme(current, false);
+  const initial = document.documentElement.getAttribute('data-theme') || 'light';
+  applyTheme(initial, false);
 
   toggleBtn?.addEventListener('click', () => {
     const active = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = active === 'dark' ? 'light' : 'dark';
-    applyTheme(next, true);
+    applyTheme(active === 'dark' ? 'light' : 'dark', true);
   });
 
   window.addEventListener('storage', (event) => {
@@ -67,8 +108,46 @@ function initThemeToggle() {
 }
 
 /**
+ * Shader Pause / Play Controller
+ * Keeps ambient WebGL shader motion user-controllable for comfort and accessibility.
+ */
+function initShaderControls(shaderCtrl) {
+  const toggleBtn = document.getElementById('shader-toggle');
+  const stateLabel = document.getElementById('shader-toggle-state');
+  const liveRegion = document.getElementById('shader-live-status');
+  if (!toggleBtn || !shaderCtrl) return;
+
+  const syncUi = (paused) => {
+    toggleBtn.setAttribute('aria-pressed', String(!paused));
+    toggleBtn.setAttribute('data-shader-paused', String(paused));
+    if (stateLabel) {
+      stateLabel.textContent = paused ? 'Paused' : 'Live';
+    }
+  };
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    shaderCtrl.pause();
+  }
+  syncUi(shaderCtrl.isPaused());
+
+  toggleBtn.addEventListener('click', () => {
+    if (shaderCtrl.isPaused()) {
+      shaderCtrl.resume();
+    } else {
+      shaderCtrl.pause();
+    }
+    const paused = shaderCtrl.isPaused();
+    syncUi(paused);
+    if (liveRegion) {
+      liveRegion.textContent = paused ? 'Ambient shader paused.' : 'Ambient shader active.';
+    }
+  });
+}
+
+/**
  * Mobile Navigation Drawer (<dialog>)
- * Uses native modal focus-trapping, Escape key dismissal, and backdrop close.
+ * Uses native modal focus-trapping, Escape dismissal, and backdrop close.
  */
 function initMobileDrawer() {
   const drawer = document.getElementById('mobile-drawer');
@@ -102,21 +181,18 @@ function initMobileDrawer() {
     restoreFocusOnClose = true;
   });
 
-  // Close on backdrop click
   drawer.addEventListener('click', (event) => {
     if (event.target === drawer) {
       closeDrawer(true);
     }
   });
 
-  // Close drawer when navigating to an anchor link without pulling focus back to menu-toggle
   drawer.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener('click', () => {
       closeDrawer(false);
     });
   });
 
-  // Close drawer if viewport widens to desktop where menu-toggle is hidden
   const desktopMq = window.matchMedia('(min-width: 768px)');
   desktopMq.addEventListener('change', (event) => {
     if (event.matches && drawer.open) {
@@ -127,8 +203,6 @@ function initMobileDrawer() {
 
 /**
  * Scrollspy Fallback + aria-current Sync
- * Mirrors native scroll-target-group / :target-current for browsers without support
- * and keeps aria-current updated for assistive tech.
  */
 function initScrollspy() {
   const navLinks = Array.from(document.querySelectorAll('.site-nav .nav-link'));
@@ -176,14 +250,13 @@ function initScrollspy() {
       });
     },
     {
-      rootMargin: '-35% 0px -55% 0px',
+      rootMargin: '-32% 0px -56% 0px',
       threshold: 0,
     }
   );
 
   sections.forEach((section) => observer.observe(section));
 
-  // Ensure last section activates when scrolled to the bottom on tall viewports
   const syncScrollEdges = () => {
     const atBottom =
       window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 24;
@@ -196,8 +269,7 @@ function initScrollspy() {
 
 /**
  * Project Era Filter
- * Filters between All (7), The AI Era (3), and Foundations (4) while keeping
- * ScrollTrigger heights accurate and announcing updates politely.
+ * Switches cleanly between All (7), The AI Era (3), and Foundations (4).
  */
 function initProjectFilters() {
   const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
@@ -326,14 +398,10 @@ function initCopyAndToast() {
 
   toastClose?.addEventListener('click', hideToast);
   toast?.addEventListener('mouseleave', () => {
-    if (isToastOpen()) {
-      scheduleHide();
-    }
+    if (isToastOpen()) scheduleHide();
   });
   toast?.addEventListener('focusout', () => {
-    if (isToastOpen()) {
-      scheduleHide();
-    }
+    if (isToastOpen()) scheduleHide();
   });
 
   const legacyCopy = (text) => {
@@ -428,10 +496,19 @@ function initCopyAndToast() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  initThemeToggle();
+  const initialTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const shaderHost = document.getElementById('hero-shader');
+  const shaderCtrl = initHeroShader(shaderHost, { theme: initialTheme });
+
+  initThemeToggle((nextTheme) => {
+    shaderCtrl?.setTheme(nextTheme);
+  });
+  initShaderControls(shaderCtrl);
+  initScrollProgressFallback();
   initMobileDrawer();
   initScrollspy();
   initProjectFilters();
+  initSidecarSimulator();
   initCopyAndToast();
   initPortfolioMotion();
 });
