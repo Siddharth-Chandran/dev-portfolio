@@ -1,194 +1,156 @@
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-export function initCursor() {
-  const cursor = document.getElementById("cursor");
-  const follower = document.getElementById("cursor-follower");
-  if (!cursor || !follower) return;
+gsap.registerPlugin(ScrollTrigger);
 
-  const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-  if (!isDesktop) return;
+/**
+ * Authored Motion Layer
+ * - Content always remains visible (opacity: 1) below the fold so screenshots,
+ *   anchor jumps, and fast scrolling never encounter invisible regions.
+ * - Uses compositor-only properties (transform, opacity) and clears inline styles.
+ */
+export function initPortfolioMotion() {
+  const mm = gsap.matchMedia();
 
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let cursorX = mouseX;
-  let cursorY = mouseY;
-  let followerX = mouseX;
-  let followerY = mouseY;
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    // 1. Focal Hero Entrance (single rehearsed sequence on load)
+    const heroLead = document.querySelector('[data-hero-lead]');
+    const heroSupport = document.querySelectorAll('[data-hero-support]');
+    const heroDecoration = document.querySelector('[data-hero-decoration]');
+    const heroPanel = document.querySelector('[data-hero-panel]');
 
-  const quickSetterCursorX = gsap.quickSetter(cursor, "x", "px");
-  const quickSetterCursorY = gsap.quickSetter(cursor, "y", "px");
-  const quickSetterFollowerX = gsap.quickSetter(follower, "x", "px");
-  const quickSetterFollowerY = gsap.quickSetter(follower, "y", "px");
-
-  gsap.ticker.add(() => {
-    followerX += (mouseX - followerX) * 0.15;
-    followerY += (mouseY - followerY) * 0.15;
-    cursorX += (mouseX - cursorX) * 0.5;
-    cursorY += (mouseY - cursorY) * 0.5;
-
-    quickSetterCursorX(cursorX);
-    quickSetterCursorY(cursorY);
-    quickSetterFollowerX(followerX);
-    quickSetterFollowerY(followerY);
-  });
-
-  window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  // Magnetic logic
-  const magnetics = document.querySelectorAll(".magnetic, a, button");
-  magnetics.forEach(el => {
-    el.addEventListener("mouseenter", () => {
-      follower.classList.add("active");
-    });
-    
-    el.addEventListener("mouseleave", () => {
-      follower.classList.remove("active");
-      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: "power2.out" });
+    const heroTl = gsap.timeline({
+      defaults: { ease: 'power3.out', clearProps: 'transform,opacity' },
     });
 
-    el.addEventListener("mousemove", (e) => {
+    if (heroLead) {
+      heroTl.from(heroLead, {
+        y: 16,
+        opacity: 0,
+        duration: 0.5,
+      });
+    }
+
+    if (heroDecoration) {
+      heroTl.from(
+        heroDecoration,
+        {
+          opacity: 0,
+          duration: 0.35,
+        },
+        0.04
+      );
+    }
+
+    if (heroSupport.length) {
+      heroTl.from(
+        heroSupport,
+        {
+          y: 12,
+          opacity: 0,
+          duration: 0.45,
+          stagger: 0.08,
+        },
+        0.08
+      );
+    }
+
+    if (heroPanel) {
+      heroTl.from(
+        heroPanel,
+        {
+          y: 14,
+          scale: 0.98,
+          opacity: 0,
+          duration: 0.5,
+        },
+        0.14
+      );
+    }
+
+    // 2. Subtle spatial settle on scroll without ever hiding content (opacity stays 1)
+    const revealTargets = gsap.utils.toArray('[data-reveal]');
+    const initialFold = window.innerHeight * 0.95;
+
+    const belowFold = revealTargets.filter((el) => {
       const rect = el.getBoundingClientRect();
-      const relX = e.clientX - rect.left - rect.width / 2;
-      const relY = e.clientY - rect.top - rect.height / 2;
-      
-      const strength = el.getAttribute("data-strength") || 20;
-      
-      gsap.to(el, {
-        x: (relX / rect.width) * strength,
-        y: (relY / rect.height) * strength,
-        ease: "power2.out",
-        duration: 0.2
-      });
+      return rect.top > initialFold;
     });
-  });
-}
 
-export function initParallax() {
-  const bgs = document.querySelectorAll(".parallax-bg");
-  if (bgs.length === 0) return;
-
-  const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-  if (!isDesktop) return;
-
-  let mouseX = 0;
-  let mouseY = 0;
-  
-  window.addEventListener("mousemove", (e) => {
-    mouseX = (e.clientX - window.innerWidth / 2);
-    mouseY = (e.clientY - window.innerHeight / 2);
-
-    bgs.forEach(bg => {
-      const speed = parseFloat(bg.getAttribute("data-speed")) || 0.05;
-      gsap.to(bg, {
-        x: mouseX * speed,
-        y: mouseY * speed,
-        ease: "power2.out",
-        duration: 1
+    if (belowFold.length) {
+      ScrollTrigger.batch(belowFold, {
+        start: 'top 94%',
+        once: true,
+        onEnter: (batch) => {
+          gsap.fromTo(
+            batch,
+            { y: 12 },
+            {
+              y: 0,
+              duration: 0.42,
+              stagger: { each: 0.05, from: 'start' },
+              ease: 'power3.out',
+              overwrite: 'auto',
+              clearProps: 'transform',
+            }
+          );
+        },
       });
-    });
-  });
-}
+    }
 
-export function initSplitText() {
-  const targets = document.querySelectorAll(".split-text");
-  
-  targets.forEach(target => {
-    if (target.querySelector(".split-wrapper")) return;
-
-    const text = target.innerText;
-    const splitType = target.getAttribute("data-split") || "word";
-    target.innerHTML = ""; 
-
-    if (splitType === "char") {
-      text.split("").forEach(char => {
-        if (char === " ") {
-          target.innerHTML += `<span class="split-space">&nbsp;</span>`;
-        } else {
-          target.innerHTML += `<div class="split-wrapper"><span class="split-char">${char}</span></div>`;
+    // 3. Subtle authored highlight on the Save the Date motion curve (remains visible at rest)
+    const motionPath = document.querySelector('.schematic-motion-curve');
+    if (motionPath) {
+      gsap.fromTo(
+        motionPath,
+        { opacity: 0.45 },
+        {
+          opacity: 1,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: motionPath,
+            start: 'top 92%',
+            once: true,
+          },
+          clearProps: 'opacity',
         }
-      });
-    } else {
-      text.split(" ").forEach(word => {
-        target.innerHTML += `<div class="split-wrapper"><span class="split-char">${word}</span></div><span class="split-space">&nbsp;</span>`;
-      });
+      );
     }
   });
 
-  // Execute scroll trigger reveal on them
-  targets.forEach(target => {
-    const chars = target.querySelectorAll(".split-char");
-    gsap.from(chars, {
-      scrollTrigger: {
-        trigger: target,
-        start: "top 85%",
-        toggleActions: "play none none reverse"
-      },
-      yPercent: 120, // push it completely down below the overflow wrapper
+  // Reduced motion: gentle opacity fade for hero only, zero spatial movement
+  mm.add('(prefers-reduced-motion: reduce)', () => {
+    const heroItems = document.querySelectorAll(
+      '[data-hero-lead], [data-hero-support], [data-hero-decoration], [data-hero-panel]'
+    );
+    gsap.from(heroItems, {
       opacity: 0,
-      stagger: 0.03,
-      duration: 0.8,
-      ease: "power4.out"
+      duration: 0.2,
+      ease: 'power1.out',
+      clearProps: 'opacity',
     });
   });
 }
 
-export function initScrollTriggers() {
-  // Pin About Section
-  const aboutSection = document.getElementById("about");
-  const aboutContainer = aboutSection?.querySelector(".about-container");
-  
-  if (aboutSection && aboutContainer) {
-    const aboutParagraphs = aboutContainer.querySelectorAll("p");
-    
-    // Set initial state
-    gsap.set(aboutParagraphs, { opacity: 0, y: 30 });
-    
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: aboutSection,
-        start: "top 10%",
-        end: "+=150%", 
-        pin: true,
-        scrub: 1, 
-      }
-    });
+export function animateFilteredGroup(groupEl) {
+  if (!groupEl) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    aboutParagraphs.forEach(p => {
-      tl.to(p, { opacity: 1, y: 0, duration: 1 }, "+=0.2");
-    });
-  }
+  gsap.fromTo(
+    groupEl,
+    { y: 8, opacity: 0.65 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.24,
+      ease: 'power2.out',
+      overwrite: 'auto',
+      clearProps: 'transform,opacity',
+    }
+  );
+}
 
-  // Horizontal Scroll for Projects
-  const projectsSection = document.getElementById("projects");
-  const projectsWrapper = projectsSection?.querySelector(".projects-horizontal-wrapper");
-
-  if (projectsSection && projectsWrapper) {
-    gsap.matchMedia().add("(min-width: 768px)", () => {
-      
-      const getScrollAmount = () => {
-        const wrapperWidth = projectsWrapper.scrollWidth;
-        const containerWidth = projectsWrapper.parentElement.offsetWidth;
-        return -(wrapperWidth - containerWidth); 
-      };
-
-      const tween = gsap.to(projectsWrapper, {
-        x: getScrollAmount,
-        ease: "none"
-      });
-
-      ScrollTrigger.create({
-        trigger: projectsSection,
-        start: "top top",
-        end: () => `+=${projectsWrapper.scrollWidth}`, 
-        pin: true,
-        animation: tween,
-        scrub: 1,
-        invalidateOnRefresh: true
-      });
-    });
-  }
+export function refreshScrollTriggers() {
+  ScrollTrigger.refresh();
 }

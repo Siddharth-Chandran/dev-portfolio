@@ -1,224 +1,1490 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- SEO and Meta Tags -->
-    <title>Siddharth | Developer Portfolio</title>
-    <meta name="description" content="Siddharth - Full-Stack Developer Portfolio" />
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="./style.css">
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f6f5f0" />
+    <script>
+      (function () {
+        var colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
+        var themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        var theme = 'light';
+        try {
+          var stored = localStorage.getItem('sidchan-theme');
+          if (stored === 'light' || stored === 'dark') {
+            theme = stored;
+          }
+        } catch (e) {
+          /* Storage access blocked; keep default light theme */
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+        if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', theme);
+        if (themeColorMeta) {
+          themeColorMeta.setAttribute('content', theme === 'dark' ? '#0a0d0c' : '#f6f5f0');
+        }
+      })();
+    </script>
+
+    <title>Siddharth | Software Engineer &amp; Full-Stack Builder — sidchan.dev</title>
+    <meta
+      name="description"
+      content="Siddharth — Software Engineer at Google with close to 9 years of experience in backend systems and full-stack product development."
+    />
+    <meta property="og:title" content="Siddharth | Developer Portfolio — sidchan.dev" />
+    <meta
+      property="og:description"
+      content="Software Engineer at Google. Backend architecture, full-stack fundamentals, and AI-era products."
+    />
+    <meta property="og:type" content="website" />
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0d0c'/%3E%3Cpath d='M9 21.5L15.5 10.5H23L16.5 21.5H9Z' fill='%23e2a94b'/%3E%3Ccircle cx='22.5' cy='20.5' r='2.2' fill='%234ade99'/%3E%3C/svg%3E"
+    />
+
+    <!-- Typography: Bricolage Grotesque (Display), Manrope (UI/Body), JetBrains Mono (Technical Tokens) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
-    <!-- Custom Cursor -->
-    <div id="cursor"></div>
-    <div id="cursor-follower"></div>
+  <body id="top">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Abstract Background -->
-    <div class="bg-abstract-1 parallax-bg" data-speed="0.05"></div>
-    <div class="bg-abstract-2 parallax-bg" data-speed="-0.03"></div>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="#top" class="brand" aria-label="sidchan.dev home">
+          <svg
+            class="brand-mark"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <rect
+              x="2"
+              y="2"
+              width="20"
+              height="20"
+              rx="4"
+              stroke="currentColor"
+              stroke-width="1.75"
+            />
+            <path d="M7.5 16L12 8H16.5L12 16H7.5Z" fill="currentColor" />
+            <circle cx="16.5" cy="15.5" r="1.5" fill="var(--accent)" />
+          </svg>
+          <span class="brand-text">sidchan<span class="brand-tld">.dev</span></span>
+        </a>
 
-    <div class="app-container">
-      
-      <!-- Navigation -->
-      <nav class="navbar glass">
-        <div class="nav-logo">sidchan<span class="highlight">.dev</span></div>
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Work</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <!-- Disabled Blog link to reserve space for the future -->
-          <li><a href="#" class="disabled" title="Coming Soon">Blog (Soon)</a></li>
-        </ul>
-      </nav>
+        <nav class="site-nav" aria-label="Primary">
+          <ul class="nav-list">
+            <li><a href="#projects" class="nav-link">Work</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#skills" class="nav-link">Stack</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
 
-      <main>
-        <!-- Hero Section -->
-        <section id="hero" class="hero-section">
-          <div class="hero-content glass box">
-            <h1 class="hero-title split-text" data-split="word">
-              <div class="split-wrapper"><span class="split-char">Hello,</span></div><span class="split-space">&nbsp;</span>
-              <div class="split-wrapper"><span class="split-char">I'm</span></div><span class="split-space">&nbsp;</span>
-              <div class="split-wrapper"><span class="split-char highlight">Siddharth</span></div>
+        <div class="header-controls">
+          <button
+            type="button"
+            id="theme-toggle"
+            class="icon-btn theme-toggle"
+            aria-label="Switch to dark theme"
+          >
+            <svg
+              class="icon-sun"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2" />
+              <path d="M12 20v2" />
+              <path d="m4.93 4.93 1.41 1.41" />
+              <path d="m17.66 17.66 1.41 1.41" />
+              <path d="M2 12h2" />
+              <path d="M20 12h2" />
+              <path d="m6.34 17.66-1.41 1.41" />
+              <path d="m19.07 4.93-1.41 1.41" />
+            </svg>
+            <svg
+              class="icon-moon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            id="menu-toggle"
+            class="icon-btn menu-toggle"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-drawer"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <path d="M4 7h16" />
+              <path d="M4 12h16" />
+              <path d="M4 17h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Dialog -->
+    <dialog id="mobile-drawer" class="mobile-drawer" closedby="any" aria-label="Site navigation">
+      <div class="mobile-drawer-inner">
+        <div class="mobile-drawer-head">
+          <span class="brand-text">sidchan<span class="brand-tld">.dev</span></span>
+          <button
+            type="button"
+            id="menu-close"
+            class="icon-btn"
+            aria-label="Close navigation menu"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav aria-label="Mobile navigation">
+          <ul class="mobile-nav-list">
+            <li><a href="#projects" class="mobile-nav-link">Work</a></li>
+            <li><a href="#about" class="mobile-nav-link">About</a></li>
+            <li><a href="#skills" class="mobile-nav-link">Stack</a></li>
+            <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="mobile-drawer-foot">
+          <a
+            href="https://www.linkedin.com/in/siddharth-chandran-e/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="drawer-social"
+          >
+            <span>LinkedIn</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17 17 7" />
+              <path d="M7 7h10v10" />
+            </svg>
+            <span class="visually-hidden">(opens in new tab)</span>
+          </a>
+          <a
+            href="https://github.com/Siddharth-Chandran"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="drawer-social"
+          >
+            <span>GitHub</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17 17 7" />
+              <path d="M7 7h10v10" />
+            </svg>
+            <span class="visually-hidden">(opens in new tab)</span>
+          </a>
+        </div>
+      </div>
+    </dialog>
+
+    <main id="main-content" tabindex="-1">
+      <!-- Hero Section -->
+      <section id="hero" class="hero" aria-labelledby="hero-heading">
+        <div class="container hero-grid">
+          <div class="hero-primary">
+            <h1 id="hero-heading" class="hero-title" data-hero-lead>
+              Hello, I’m <span class="hero-name">Siddharth</span>.
             </h1>
-            <p class="hero-subtitle delay-appear">A Full-Stack Developer creating engaging digital experiences.</p>
-            <div class="hero-actions">
-              <a href="#projects" class="btn primary">View My Work</a>
-              <a href="#contact" class="btn secondary">Get In Touch</a>
+
+            <p class="hero-lead" data-hero-support>
+              Software Engineer at Google with close to 9 years across backend
+              systems and full-stack development—pairing robust architecture with
+              modern AI leverage to ship crisp digital products.
+            </p>
+
+            <div class="hero-meta" data-hero-decoration>
+              <span class="status-dot" aria-hidden="true"></span>
+              <span>Backend Systems @ Google · Full-Stack Foundations · AI-Era Shipping</span>
+            </div>
+
+            <div class="hero-actions" data-hero-support>
+              <a href="#projects" class="btn btn-primary">
+                <span>View My Work</span>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 5v14" />
+                  <path d="m19 12-7 7-7-7" />
+                </svg>
+              </a>
+              <a href="#contact" class="btn btn-secondary">Get In Touch</a>
             </div>
           </div>
-        </section>
 
-        <!-- About Section -->
-        <section id="about" class="section">
-          <h2 class="section-title split-text" data-split="char">About Me</h2>
-          <div class="about-container glass box">
-            <p style="margin-bottom: 1.5rem;">
-              I am a Software Engineer at Google with close to 9 years of experience in the tech industry. 
-              Currently, I specialize as a backend engineer, though I spent my earlier years mastering full-stack development.
-              I'm passionate about building robust, scalable systems and intuitive digital products.
-            </p>
-            <p style="margin-bottom: 1.5rem;">
-              With the dawn of advanced AI tools, I have finally found the leverage to rapidly build out the product ideas 
-              I previously never had the time for. I'm constantly ideating and shipping new projects that bridge powerful 
-              backend logic with stunning frontend aesthetics.
+          <aside class="hero-spec" aria-label="Engineering overview" data-hero-panel>
+            <div class="spec-header">
+              <span class="spec-title">Engineer Profile</span>
+              <span class="spec-tag">sidchan.dev</span>
+            </div>
+
+            <dl class="spec-list">
+              <div class="spec-row">
+                <dt>Role</dt>
+                <dd>Software Engineer, Google</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Experience</dt>
+                <dd class="tabular-nums">~9 Years</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Discipline</dt>
+                <dd>Backend Systems &amp; Full-Stack</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Direct Mail</dt>
+                <dd class="spec-copy-cell">
+                  <code id="hero-email" class="inline-code">sidchan@duck.com</code>
+                  <button
+                    type="button"
+                    class="mini-copy-btn"
+                    command="--copy"
+                    commandfor="hero-email"
+                    aria-label="Copy email address sidchan@duck.com"
+                  >
+                    <svg
+                      class="icon-copy"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                    </svg>
+                    <svg
+                      class="icon-check"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                  </button>
+                </dd>
+              </div>
+            </dl>
+
+            <div class="spec-ships">
+              <span class="spec-ships-label">Recent Launches</span>
+              <div class="spec-ship-links">
+                <a
+                  href="https://github.com/Siddharth-Chandran/antigravity-model-usage"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="spec-ship-item"
+                >
+                  <span>Antigravity Model Usage</span>
+                  <span class="spec-ship-meta">
+                    Plugin
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                  </span>
+                  <span class="visually-hidden">(opens in new tab)</span>
+                </a>
+                <a
+                  href="https://chromewebstore.google.com/detail/smart-glass-calculator/ccilhokinjiabjciaahelojbkindneni"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="spec-ship-item"
+                >
+                  <span>Smart Chrome Calculator</span>
+                  <span class="spec-ship-meta">
+                    Extension
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                  </span>
+                  <span class="visually-hidden">(opens in new tab)</span>
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section
+        id="projects"
+        class="section projects-section"
+        aria-labelledby="projects-heading"
+        tabindex="-1"
+      >
+        <div class="container">
+          <div class="section-head-row">
+            <div>
+              <h2 id="projects-heading" class="section-title">Selected Work</h2>
+              <p class="section-intro">
+                Shipped AI-era products alongside hand-crafted backend and full-stack
+                engineering foundations.
+              </p>
+            </div>
+
+            <div class="filter-bar" role="group" aria-label="Filter projects by category">
+              <button
+                type="button"
+                class="filter-btn is-active"
+                data-filter="all"
+                aria-pressed="true"
+              >
+                All <span class="filter-count tabular-nums">7</span>
+              </button>
+              <button
+                type="button"
+                class="filter-btn"
+                data-filter="ai-era"
+                aria-pressed="false"
+              >
+                The AI Era <span class="filter-count tabular-nums">3</span>
+              </button>
+              <button
+                type="button"
+                class="filter-btn"
+                data-filter="foundations"
+                aria-pressed="false"
+              >
+                Foundations <span class="filter-count tabular-nums">4</span>
+              </button>
+            </div>
+          </div>
+
+          <p id="filter-live-status" class="visually-hidden" aria-live="polite"></p>
+
+          <!-- Group 1: The AI Era -->
+          <div class="project-group" data-group="ai-era">
+            <div class="group-header">
+              <h3 class="group-title">The AI Era</h3>
+              <p class="group-subtitle">
+                Leveraging modern AI to build high-velocity products.
+              </p>
+            </div>
+
+            <div class="featured-grid">
+              <article class="project-card project-card--featured project-card--lead" data-reveal>
+                <div class="project-schematic" aria-hidden="true">
+                  <svg viewBox="0 0 440 208" fill="none" class="schematic-svg">
+                    <line
+                      x1="0"
+                      y1="30"
+                      x2="440"
+                      y2="30"
+                      stroke="currentColor"
+                      stroke-opacity="0.12"
+                    />
+                    <circle cx="18" cy="15" r="3.5" fill="var(--accent-secondary)" />
+                    <text
+                      x="28"
+                      y="18.5"
+                      fill="currentColor"
+                      fill-opacity="0.72"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                    >
+                      SIDECAR · USAGE MONITOR
+                    </text>
+                    <rect
+                      x="326"
+                      y="7"
+                      width="98"
+                      height="16"
+                      rx="3"
+                      fill="var(--accent-subtle)"
+                      stroke="var(--accent)"
+                      stroke-opacity="0.45"
+                    />
+                    <text
+                      x="375"
+                      y="18.5"
+                      text-anchor="middle"
+                      fill="var(--accent)"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="9.5"
+                      font-weight="500"
+                    >
+                      POLL · 5s ETag
+                    </text>
+
+                    <text
+                      x="16"
+                      y="54"
+                      fill="currentColor"
+                      fill-opacity="0.78"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                    >
+                      GEMINI PRO
+                    </text>
+                    <text
+                      x="378"
+                      y="54"
+                      text-anchor="end"
+                      fill="currentColor"
+                      fill-opacity="0.52"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="9.5"
+                    >
+                      RESET 04h 12m
+                    </text>
+                    <text
+                      x="424"
+                      y="54"
+                      text-anchor="end"
+                      fill="var(--accent-secondary)"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                      font-weight="500"
+                    >
+                      82%
+                    </text>
+                    <rect
+                      x="16"
+                      y="62"
+                      width="408"
+                      height="8"
+                      rx="4"
+                      fill="currentColor"
+                      fill-opacity="0.08"
+                      stroke="currentColor"
+                      stroke-opacity="0.12"
+                    />
+                    <rect
+                      x="16"
+                      y="62"
+                      width="334"
+                      height="8"
+                      rx="4"
+                      fill="var(--accent-secondary)"
+                      fill-opacity="0.88"
+                    />
+
+                    <text
+                      x="16"
+                      y="92"
+                      fill="currentColor"
+                      fill-opacity="0.78"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                    >
+                      CLAUDE SONNET
+                    </text>
+                    <text
+                      x="378"
+                      y="92"
+                      text-anchor="end"
+                      fill="currentColor"
+                      fill-opacity="0.52"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="9.5"
+                    >
+                      RESET 01h 48m
+                    </text>
+                    <text
+                      x="424"
+                      y="92"
+                      text-anchor="end"
+                      fill="var(--accent)"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                      font-weight="500"
+                    >
+                      46%
+                    </text>
+                    <rect
+                      x="16"
+                      y="100"
+                      width="408"
+                      height="8"
+                      rx="4"
+                      fill="currentColor"
+                      fill-opacity="0.08"
+                      stroke="currentColor"
+                      stroke-opacity="0.12"
+                    />
+                    <rect
+                      x="16"
+                      y="100"
+                      width="188"
+                      height="8"
+                      rx="4"
+                      fill="var(--accent)"
+                      fill-opacity="0.9"
+                    />
+
+                    <rect
+                      x="16"
+                      y="124"
+                      width="408"
+                      height="44"
+                      rx="4"
+                      fill="currentColor"
+                      fill-opacity="0.04"
+                      stroke="currentColor"
+                      stroke-opacity="0.15"
+                    />
+                    <text
+                      x="26"
+                      y="140"
+                      fill="currentColor"
+                      fill-opacity="0.6"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="9.5"
+                    >
+                      SESSION + SWARM TOKENS
+                    </text>
+                    <text
+                      x="414"
+                      y="140"
+                      text-anchor="end"
+                      fill="currentColor"
+                      fill-opacity="0.9"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10.5"
+                      font-weight="500"
+                    >
+                      148.2K
+                    </text>
+                    <rect
+                      x="26"
+                      y="149"
+                      width="388"
+                      height="8"
+                      rx="4"
+                      fill="currentColor"
+                      fill-opacity="0.08"
+                    />
+                    <rect
+                      x="26"
+                      y="149"
+                      width="196"
+                      height="8"
+                      rx="4"
+                      fill="var(--accent)"
+                    />
+                    <rect
+                      x="226"
+                      y="149"
+                      width="96"
+                      height="8"
+                      rx="4"
+                      fill="var(--accent-secondary)"
+                      fill-opacity="0.88"
+                    />
+
+                    <line
+                      x1="16"
+                      y1="181"
+                      x2="424"
+                      y2="181"
+                      stroke="currentColor"
+                      stroke-opacity="0.1"
+                      stroke-dasharray="3 3"
+                    />
+                    <text
+                      x="16"
+                      y="198"
+                      fill="currentColor"
+                      fill-opacity="0.52"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                    >
+                      STAT CACHE · SUBAGENT AGGREGATION · 0-TOKEN
+                    </text>
+                  </svg>
+                </div>
+
+                <div class="project-body">
+                  <div class="project-top">
+                    <h4 class="project-title">Antigravity Model Usage</h4>
+                    <span class="tech-tag">Open Source</span>
+                  </div>
+                  <p class="project-desc">
+                    Real-time, zero-token, zero-dependency UI plugin (sidecar) for
+                    Google Antigravity that surfaces account model quotas, reset timers,
+                    and conversation + subagent/swarm token usage in the side pane,
+                    refreshing every 5 seconds. Features stat-based file caching, ETag
+                    short-circuiting, visibility-aware polling, subagent &amp; swarm
+                    aggregation, full/minimal views, and native light/dark theme sync.
+                  </p>
+                  <ul class="project-tags" aria-label="Project tags">
+                    <li class="project-tag">JavaScript</li>
+                    <li class="project-tag">Node.js</li>
+                    <li class="project-tag">Antigravity</li>
+                    <li class="project-tag">Sidecar Plugin</li>
+                  </ul>
+                </div>
+
+                <div class="project-footer">
+                  <a
+                    href="https://github.com/Siddharth-Chandran/antigravity-model-usage"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                  >
+                    <span>GitHub</span>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                    <span class="visually-hidden">(opens in new tab)</span>
+                  </a>
+                </div>
+              </article>
+              <article class="project-card project-card--featured" data-reveal>
+                <div class="project-schematic" aria-hidden="true">
+                  <svg viewBox="0 0 440 160" fill="none" class="schematic-svg">
+                    <line
+                      x1="0"
+                      y1="30"
+                      x2="440"
+                      y2="30"
+                      stroke="currentColor"
+                      stroke-opacity="0.12"
+                    />
+                    <circle cx="14" cy="14" r="4" fill="currentColor" fill-opacity="0.25" />
+                    <circle cx="28" cy="14" r="4" fill="currentColor" fill-opacity="0.25" />
+                    <circle cx="42" cy="14" r="4" fill="currentColor" fill-opacity="0.25" />
+                    <text
+                      x="326"
+                      y="18"
+                      fill="currentColor"
+                      fill-opacity="0.48"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                    >
+                      CHROME EXT · v1
+                    </text>
+                    <rect
+                      x="16"
+                      y="48"
+                      width="268"
+                      height="34"
+                      rx="4"
+                      fill="currentColor"
+                      fill-opacity="0.05"
+                      stroke="currentColor"
+                      stroke-opacity="0.18"
+                    />
+                    <text
+                      x="28"
+                      y="69"
+                      fill="currentColor"
+                      fill-opacity="0.88"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="12"
+                    >
+                      $240 * 1.18 + 15% tip
+                    </text>
+                    <path
+                      d="M298 65h22m0 0-5-5m5 5-5 5"
+                      stroke="var(--accent)"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <rect
+                      x="332"
+                      y="48"
+                      width="92"
+                      height="34"
+                      rx="4"
+                      fill="var(--accent-subtle)"
+                      stroke="var(--accent)"
+                      stroke-opacity="0.6"
+                    />
+                    <text
+                      x="348"
+                      y="69"
+                      fill="var(--accent)"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="12"
+                      font-weight="500"
+                    >
+                      325.68
+                    </text>
+                    <line
+                      x1="16"
+                      y1="104"
+                      x2="424"
+                      y2="104"
+                      stroke="currentColor"
+                      stroke-opacity="0.1"
+                      stroke-dasharray="3 3"
+                    />
+                    <text
+                      x="16"
+                      y="130"
+                      fill="currentColor"
+                      fill-opacity="0.52"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10.5"
+                    >
+                      NLP PARSER · LIVE EXPRESSION EVALUATION
+                    </text>
+                  </svg>
+                </div>
+
+                <div class="project-body">
+                  <div class="project-top">
+                    <h4 class="project-title">Smart Chrome Calculator</h4>
+                    <span class="tech-tag">Chrome Web Store</span>
+                  </div>
+                  <p class="project-desc">
+                    A premium, glassmorphic Chrome extension calculator with live
+                    expression evaluation and natural language parsing. Available now
+                    on the Chrome Web Store.
+                  </p>
+                </div>
+
+                <div class="project-footer">
+                  <a
+                    href="https://chromewebstore.google.com/detail/smart-glass-calculator/ccilhokinjiabjciaahelojbkindneni"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                  >
+                    <span>View Extension</span>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                    <span class="visually-hidden">(opens in new tab)</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="project-card project-card--featured" data-reveal>
+                <div class="project-schematic" aria-hidden="true">
+                  <svg viewBox="0 0 440 160" fill="none" class="schematic-svg">
+                    <line
+                      x1="0"
+                      y1="30"
+                      x2="440"
+                      y2="30"
+                      stroke="currentColor"
+                      stroke-opacity="0.12"
+                    />
+                    <text
+                      x="16"
+                      y="18"
+                      fill="currentColor"
+                      fill-opacity="0.6"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                    >
+                      samrohit.live
+                    </text>
+                    <text
+                      x="338"
+                      y="18"
+                      fill="currentColor"
+                      fill-opacity="0.48"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10"
+                    >
+                      VITE · GSAP
+                    </text>
+                    <path
+                      class="schematic-motion-curve"
+                      d="M20 112C84 112 112 52 188 52C264 52 296 102 418 64"
+                      stroke="var(--accent)"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                    />
+                    <circle cx="20" cy="112" r="4" fill="var(--accent)" />
+                    <circle cx="188" cy="52" r="4" fill="var(--accent)" />
+                    <circle cx="418" cy="64" r="4" fill="var(--accent-secondary)" />
+                    <line
+                      x1="16"
+                      y1="122"
+                      x2="424"
+                      y2="122"
+                      stroke="currentColor"
+                      stroke-opacity="0.14"
+                    />
+                    <text
+                      x="16"
+                      y="142"
+                      fill="currentColor"
+                      fill-opacity="0.52"
+                      font-family="JetBrains Mono, monospace"
+                      font-size="10.5"
+                    >
+                      CHOREOGRAPHED TIMELINE · BESPOKE MOTION
+                    </text>
+                  </svg>
+                </div>
+
+                <div class="project-body">
+                  <div class="project-top">
+                    <h4 class="project-title">Save the Date: Rohit</h4>
+                    <span class="tech-tag">Vanilla JS / GSAP</span>
+                  </div>
+                  <p class="project-desc">
+                    A beautifully animated, bespoke &ldquo;Save the Date&rdquo; website
+                    built using Vite, Vanilla JavaScript, and GSAP.
+                  </p>
+                </div>
+
+                <div class="project-footer">
+                  <a
+                    href="https://samrohit.live/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                  >
+                    <span>Live Site</span>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                    <span class="visually-hidden">(opens in new tab)</span>
+                  </a>
+                  <a
+                    href="https://github.com/Siddharth-Chandran/save-the-date"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link project-link--secondary"
+                  >
+                    <span>GitHub</span>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                    <span class="visually-hidden">(opens in new tab)</span>
+                  </a>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Group 2: Hand-Crafted Foundations -->
+          <div class="project-group" data-group="foundations">
+            <div class="group-header">
+              <h3 class="group-title">Hand-Crafted Foundations</h3>
+              <p class="group-subtitle">
+                Earlier work highlighting my fundamentals in full-stack and backend
+                engineering.
+              </p>
+            </div>
+
+            <div class="foundations-grid">
+              <article class="project-card" data-reveal>
+                <div class="project-body">
+                  <div class="project-top">
+                    <h4 class="project-title">Wego Parking Problem</h4>
+                    <span class="tech-tag">Java</span>
+                  </div>
+                  <p class="project-desc">
+                    An algorithm and mini-project to fetch and calculate the nearest car
+                    park garages for a given pair of coordinates.
+                  </p>
+                </div>
+                <div class="project-footer">
+                  <a
+                    href="https://github.com/Siddharth-Chandran/wego-parking-problem"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                  >
+                    <span>GitHub</span>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                    <span class="visually-hidden">(opens in new tab)</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="project-card" data-reveal>
+                <div class="project-body">
+                  <div class="project-top">
+                    <h4 class="project-title">CSV Uploader</h4>
+                    <span class="tech-tag">React / JS</span>
+                  </div>
+                  <p class="project-desc">
+                    A front-end interface built to parse, manage, and upload CSV data
+                    effectively while highlighting core React concepts.
+                  </p>
+                </div>
+                <div class="project-footer">
+                  <a
+                    href="https://github.com/Siddharth-Chandran/csv-uploader"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                  >
+                    <span>GitHub</span>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                    <span class="visually-hidden">(opens in new tab)</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="project-card" data-reveal>
+                <div class="project-body">
+                  <div class="project-top">
+                    <h4 class="project-title">CPI Dashboard</h4>
+                    <span class="tech-tag">JavaScript</span>
+                  </div>
+                  <p class="project-desc">
+                    A Consumer Price Index Dashboard created for tracking and
+                    visualizing shifts in economic metrics.
+                  </p>
+                </div>
+                <div class="project-footer">
+                  <a
+                    href="https://github.com/Siddharth-Chandran/cpi-dashboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                  >
+                    <span>GitHub</span>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                    <span class="visually-hidden">(opens in new tab)</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="project-card" data-reveal>
+                <div class="project-body">
+                  <div class="project-top">
+                    <h4 class="project-title">OCR System</h4>
+                    <span class="tech-tag">Java</span>
+                  </div>
+                  <p class="project-desc">
+                    An Image-to-Text Optical Character Recognition engine integrated
+                    with a robust alerting mechanism.
+                  </p>
+                </div>
+                <div class="project-footer">
+                  <a
+                    href="https://github.com/Siddharth-Chandran/OCR"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                  >
+                    <span>GitHub</span>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                    <span class="visually-hidden">(opens in new tab)</span>
+                  </a>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section
+        id="about"
+        class="section about-section"
+        aria-labelledby="about-heading"
+        tabindex="-1"
+      >
+        <div class="container about-grid">
+          <div class="about-sidebar" data-reveal>
+            <h2 id="about-heading" class="section-title">About Me</h2>
+            <dl class="facts-list">
+              <div class="fact-item">
+                <dt>Current</dt>
+                <dd>Software Engineer at Google (Backend Specialist)</dd>
+              </div>
+              <div class="fact-item">
+                <dt>Tenure</dt>
+                <dd>Close to 9 years in the tech industry</dd>
+              </div>
+              <div class="fact-item">
+                <dt>Earlier Path</dt>
+                <dd>Full-stack product engineering</dd>
+              </div>
+              <div class="fact-item">
+                <dt>Off-Clock</dt>
+                <dd>Souls-like games &amp; world travel</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="about-prose" data-reveal>
+            <p>
+              I am a Software Engineer at Google with close to 9 years of experience in
+              the tech industry. Currently, I specialize as a backend engineer, though I
+              spent my earlier years mastering full-stack development. I&rsquo;m
+              passionate about building robust, scalable systems and intuitive digital
+              products.
             </p>
             <p>
-              Outside of the code editor, I'm a huge gamer who loves spending my free time grinding through notoriously difficult Souls-like games. 
-              My ultimate dream is to travel all around the world and explore new horizons.
+              With the dawn of advanced AI tools, I have finally found the leverage to
+              rapidly build out the product ideas I previously never had the time for.
+              I&rsquo;m constantly ideating and shipping new projects that bridge
+              powerful backend logic with crisp frontend aesthetics.
+            </p>
+            <p>
+              Outside of the code editor, I&rsquo;m a huge gamer who loves spending my
+              free time grinding through notoriously difficult Souls-like games. My
+              ultimate dream is to travel all around the world and explore new horizons.
             </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Skills & Interests -->
-        <section id="skills" class="section">
-          <h2 class="section-title split-text" data-split="char">Skills & Interests</h2>
-          <div class="skills-grid">
-            <div class="skill-card glass">
-              <h3>Frontend</h3>
-              <p>HTML5, CSS3, JavaScript, React, Next.js, Framer Motion, GSAP.</p>
+      <!-- Skills & Interests Matrix -->
+      <section
+        id="skills"
+        class="section stack-section"
+        aria-labelledby="skills-heading"
+        tabindex="-1"
+      >
+        <div class="container">
+          <h2 id="skills-heading" class="section-title">Skills &amp; Interests</h2>
+
+          <div class="stack-matrix">
+            <div class="stack-row" data-reveal>
+              <div class="stack-category">
+                <h3>Frontend</h3>
+                <p>Interfaces, motion &amp; responsive web systems</p>
+              </div>
+              <ul class="token-list" aria-label="Frontend technologies">
+                <li class="token">HTML5</li>
+                <li class="token">CSS3</li>
+                <li class="token">JavaScript</li>
+                <li class="token">React</li>
+                <li class="token">Next.js</li>
+                <li class="token">Framer Motion</li>
+                <li class="token">GSAP</li>
+              </ul>
             </div>
-            <div class="skill-card glass">
-              <h3>Backend</h3>
-              <p>Node.js, Express, REST APIs, GraphQL, Java.</p>
+
+            <div class="stack-row" data-reveal>
+              <div class="stack-category">
+                <h3>Backend</h3>
+                <p>APIs, service architecture &amp; core systems</p>
+              </div>
+              <ul class="token-list" aria-label="Backend technologies">
+                <li class="token">Node.js</li>
+                <li class="token">Express</li>
+                <li class="token">REST APIs</li>
+                <li class="token">GraphQL</li>
+                <li class="token">Java</li>
+              </ul>
             </div>
-            <div class="skill-card glass">
-              <h3>Databases</h3>
-              <p>PostgreSQL, MongoDB, Redis.</p>
+
+            <div class="stack-row" data-reveal>
+              <div class="stack-category">
+                <h3>Databases</h3>
+                <p>Relational, document &amp; in-memory storage</p>
+              </div>
+              <ul class="token-list" aria-label="Databases">
+                <li class="token">PostgreSQL</li>
+                <li class="token">MongoDB</li>
+                <li class="token">Redis</li>
+              </ul>
             </div>
-            <div class="skill-card glass">
-              <h3>Interests</h3>
-              <p>Gaming (Souls-likes), UI/UX Design, Open Source, System Architecture, World Travel.</p>
+
+            <div class="stack-row" data-reveal>
+              <div class="stack-category">
+                <h3>Interests</h3>
+                <p>Crafts, curiosities &amp; pursuits beyond work</p>
+              </div>
+              <ul class="token-list" aria-label="Personal interests">
+                <li class="token token--muted">Gaming (Souls-likes)</li>
+                <li class="token token--muted">UI/UX Design</li>
+                <li class="token token--muted">Open Source</li>
+                <li class="token token--muted">System Architecture</li>
+                <li class="token token--muted">World Travel</li>
+              </ul>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="section projects-section">
-          <div class="projects-header">
-            <h2 class="section-title split-text" data-split="char">View My Work</h2>
-            <p class="projects-scroll-prompt">Scroll to explore &rarr;</p>
+      <!-- Contact Section -->
+      <section
+        id="contact"
+        class="section contact-section"
+        aria-labelledby="contact-heading"
+        tabindex="-1"
+      >
+        <div class="container contact-panel" data-reveal>
+          <div class="contact-copy">
+            <h2 id="contact-heading" class="section-title">Let’s Connect</h2>
+            <p class="contact-lead">
+              I’m always open to discussing new ideas, tech, or gaming.
+            </p>
           </div>
-          
-          <div class="projects-horizontal-wrapper">
-            <!-- Column 1: The AI Era -->
-            <div class="projects-column">
-              <div class="projects-col-header">
-                <h3 class="subsection-title split-text" data-split="word">The AI Era</h3>
-                <p class="section-subtitle delay-appear">Leveraging modern AI to build high-velocity products.</p>
+
+          <div class="contact-actions-wrap">
+            <div class="email-bar">
+              <div class="email-display">
+                <span class="email-label">Email</span>
+                <code id="contact-email" class="email-address">sidchan@duck.com</code>
               </div>
-              <div class="projects-grid">
-                
-                <div class="project-card glass magnetic" data-strength="15">
-                  <div class="project-content">
-                    <span class="badge">Chrome Web Store</span>
-                    <h3>Smart Chrome Calculator</h3>
-                    <p>A premium, glassmorphic Chrome extension calculator with live expression evaluation and natural language parsing. Available now on the Chrome Web Store.</p>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://chromewebstore.google.com/detail/smart-glass-calculator/ccilhokinjiabjciaahelojbkindneni" target="_blank" class="project-btn magnetic" data-strength="30">View Extension ↗</a>
-                  </div>
-                </div>
-
-                <div class="project-card glass magnetic" data-strength="15">
-                  <div class="project-content">
-                    <span class="badge">Vanilla JS / GSAP</span>
-                    <h3>Save the Date: Rohit</h3>
-                    <p>A beautifully animated, bespoke "Save the Date" website built using Vite, Vanilla JavaScript, and GSAP.</p>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://samrohit.live/" target="_blank" class="project-btn magnetic" data-strength="30">Live Site ↗</a>
-                    <a href="https://github.com/Siddharth-Chandran/save-the-date" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
-                  </div>
-                </div>
-
+              <div class="email-buttons">
+                <button
+                  type="button"
+                  id="copy-email-btn"
+                  class="btn btn-primary copy-email-btn"
+                  command="--copy"
+                  commandfor="contact-email"
+                >
+                  <svg
+                    class="icon-copy"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                  </svg>
+                  <svg
+                    class="icon-check"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                  <span class="copy-btn-label">Copy Email</span>
+                </button>
+                <a href="mailto:sidchan@duck.com" class="btn btn-secondary">
+                  Email Me
+                </a>
               </div>
             </div>
 
-            <!-- Column 2: Hand-Crafted Foundations -->
-            <div class="projects-column">
-              <div class="projects-col-header">
-                <h3 class="subsection-title split-text" data-split="word">Hand-Crafted Foundations</h3>
-                <p class="section-subtitle delay-appear">Earlier work highlighting my fundamentals in full-stack and backend engineering.</p>
-              </div>
-              <div class="projects-grid">
-                
-                <div class="project-card glass magnetic" data-strength="15">
-                  <div class="project-content">
-                    <span class="badge">Java</span>
-                    <h3>Wego Parking Problem</h3>
-                    <p>An algorithm and mini-project to fetch and calculate the nearest car park garages for a given pair of coordinates.</p>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://github.com/Siddharth-Chandran/wego-parking-problem" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
-                  </div>
-                </div>
-
-                <div class="project-card glass magnetic" data-strength="15">
-                  <div class="project-content">
-                    <span class="badge">React / JS</span>
-                    <h3>CSV Uploader</h3>
-                    <p>A front-end interface built to parse, manage, and upload CSV data effectively while highlighting core React concepts.</p>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://github.com/Siddharth-Chandran/csv-uploader" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
-                  </div>
-                </div>
-
-                <div class="project-card glass magnetic" data-strength="15">
-                  <div class="project-content">
-                    <span class="badge">JavaScript</span>
-                    <h3>CPI Dashboard</h3>
-                    <p>A Consumer Price Index Dashboard created for tracking and visualizing shifts in economic metrics.</p>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://github.com/Siddharth-Chandran/cpi-dashboard" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
-                  </div>
-                </div>
-
-                <div class="project-card glass magnetic" data-strength="15">
-                  <div class="project-content">
-                    <span class="badge">Java</span>
-                    <h3>OCR System</h3>
-                    <p>An Image-to-Text Optical Character Recognition engine integrated with a robust alerting mechanism.</p>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://github.com/Siddharth-Chandran/OCR" target="_blank" class="project-btn magnetic" data-strength="30">GitHub ↗</a>
-                  </div>
-                </div>
-
-              </div>
-            </div>
+            <ul class="social-links" aria-label="Social profiles">
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/siddharth-chandran-e/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="social-link"
+                >
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                    />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                  <span>LinkedIn</span>
+                  <svg
+                    class="ext-arrow"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 17 17 7" />
+                    <path d="M7 7h10v10" />
+                  </svg>
+                  <span class="visually-hidden">(opens in new tab)</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Siddharth-Chandran"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="social-link"
+                >
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+                    />
+                    <path d="M9 18c-4.51 2-5-2-7-2" />
+                  </svg>
+                  <span>GitHub</span>
+                  <svg
+                    class="ext-arrow"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 17 17 7" />
+                    <path d="M7 7h10v10" />
+                  </svg>
+                  <span class="visually-hidden">(opens in new tab)</span>
+                </a>
+              </li>
+            </ul>
           </div>
-        </section>
+        </div>
+      </section>
+    </main>
 
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-          <h2 class="section-title split-text" data-split="char">Let's Connect</h2>
-          <div class="contact-card glass box delay-appear">
-            <p>I'm always open to discussing new ideas, tech, or gaming.</p>
-            <div class="social-links">
-              <a href="https://www.linkedin.com/in/siddharth-chandran-e/" target="_blank" class="social-btn">LinkedIn</a>
-              <a href="https://github.com/Siddharth-Chandran" target="_blank" class="social-btn">GitHub</a>
-              <a href="mailto:sidchan@duck.com" class="social-btn">Email Me</a>
-            </div>
-          </div>
-        </section>
-      </main>
-      
-      <footer class="footer">
-        <p>&copy; 2026 Siddharth. All rights reserved.</p>
-      </footer>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p class="footer-copy">&copy; 2026 Siddharth. All rights reserved.</p>
+        <div class="footer-meta">
+          <span class="footer-domain">sidchan.dev</span>
+          <a href="#top" class="back-to-top">
+            <span>Back to top</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m18 15-6-6-6 6" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Accessible Toast Region -->
+    <div class="toast-region" role="region" aria-label="Notifications">
+      <div id="copy-toast" class="toast" popover="manual">
+        <svg
+          class="toast-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        <span id="toast-message" class="toast-message">Copied to clipboard</span>
+        <button
+          type="button"
+          id="toast-close"
+          class="toast-close"
+          aria-label="Dismiss notification"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+      <div id="toast-live" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
     </div>
-    
-    <!-- Scripts -->
+
     <script type="module" src="./main.js"></script>
   </body>
 </html>
