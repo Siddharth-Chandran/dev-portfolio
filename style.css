@@ -986,7 +986,7 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .project-card--lead {
+  .project-card.project-card--lead {
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
@@ -996,23 +996,24 @@ button {
     align-items: start;
   }
 
-  .project-card--lead .project-body {
+  .project-card.project-card--lead .project-body {
     grid-column: 1;
     grid-row: 1;
   }
 
-  .project-card--lead .project-footer {
+  .project-card.project-card--lead .project-footer {
     grid-column: 1;
     grid-row: 2;
     align-self: end;
   }
 
-  .project-card--lead .project-schematic {
+  .project-card.project-card--lead .project-schematic {
     grid-column: 2;
     grid-row: 1 / 3;
-    align-self: stretch;
+    align-self: center;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 }
 
@@ -1069,6 +1070,19 @@ button {
   width: 100%;
   height: auto;
   color: var(--text-primary);
+}
+
+.project-card--lead .project-schematic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card--lead .project-schematic svg {
+  max-height: 220px;
+  width: 100%;
+  height: auto;
+  margin-inline: auto;
 }
 
 .project-body {
